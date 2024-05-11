@@ -1,0 +1,63 @@
+[gd_scene load_steps=9 format=3 uid="uid://b7usbcdm61rvi"]
+
+[ext_resource type="Script" path="res://Scripts/Game/Player.gd" id="1_o3lf0"]
+[ext_resource type="Texture2D" uid="uid://gj487qqetayx" path="res://Assets/Art/Other/icon.svg" id="1_vfiks"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gkrew"]
+size = Vector2(976.189, 20)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bg27q"]
+
+[sub_resource type="Gradient" id="Gradient_0t63y"]
+offsets = PackedFloat32Array(0, 0.380282, 0.732394)
+colors = PackedColorArray(0.891398, 1, 0.997152, 1, 0.216722, 1, 0.999172, 1, 0, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_suhvv"]
+gradient = SubResource("Gradient_0t63y")
+width = 40
+height = 40
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="Curve" id="Curve_pmots"]
+_data = [Vector2(0, 1), 0.0, -1.33011, 0, 0, Vector2(1, 0), -0.875072, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_whc1w"]
+_data = [Vector2(0, 1), 0.0, -1.10341, 0, 0, Vector2(1, 0), -1.06693, 0.0, 0, 0]
+point_count = 2
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Platform" type="StaticBody2D" parent="."]
+position = Vector2(150, 665)
+
+[node name="Sprite2D" type="Sprite2D" parent="Platform"]
+position = Vector2(477.189, -1.26911)
+scale = Vector2(7.625, 0.171875)
+texture = ExtResource("1_vfiks")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform"]
+position = Vector2(478.094, 0)
+shape = SubResource("RectangleShape2D_gkrew")
+
+[node name="Water" type="CanvasLayer" parent="."]
+scale = Vector2(2, 2)
+transform = Transform2D(2, 0, 0, 2, 0, 0)
+
+[node name="Player" type="CharacterBody2D" parent="Water"]
+position = Vector2(306.5, 186)
+script = ExtResource("1_o3lf0")
+
+[node name="Shape" type="CollisionShape2D" parent="Water/Player"]
+shape = SubResource("CircleShape2D_bg27q")
+
+[node name="Trail" type="CPUParticles2D" parent="Water/Player"]
+amount = 30
+lifetime = 0.15
+draw_order = 1
+texture = SubResource("GradientTexture2D_suhvv")
+gravity = Vector2(0, 0)
+split_scale = true
+scale_curve_x = SubResource("Curve_pmots")
+scale_curve_y = SubResource("Curve_whc1w")
